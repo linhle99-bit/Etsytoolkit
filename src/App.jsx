@@ -4,11 +4,13 @@ import Uploader from './components/Uploader'
 import MockupEditor from './components/MockupEditor'
 import BatchQueue from './components/BatchQueue'
 import CostPanel from './components/CostPanel'
+import AuthPanel from './components/AuthPanel'
 import { useSettings, isSettingsComplete } from './hooks/useSettings'
 import { useBatch } from './hooks/useBatch'
 import { useTrelloMockups } from './hooks/useTrelloMockups'
 import { useMockupSets } from './hooks/useMockupSets'
 import { useApiCost } from './hooks/useApiCost'
+import { useAuth } from './hooks/useAuth'
 
 export default function App() {
   const { settings, update } = useSettings()
@@ -34,6 +36,7 @@ export default function App() {
 
   const mockupSets = useMockupSets()
   const apiCost = useApiCost()
+  const auth = useAuth()
 
   const canRun =
     isSettingsComplete(settings) && trelloMockups.readyCount > 0
@@ -80,16 +83,16 @@ export default function App() {
 
   return (
     <div className="min-h-screen">
-      <header className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 px-6 shadow">
+      <header className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 px-6 shadow relative">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold">Etsy Product Tool</h1>
             <p className="text-sm text-indigo-100">
-              Pull mockup từ Trello → Ghép PNG → SEO → Push card mới
+              Pull mockup → Ghép PNG → Vision SEO → Push Trello / Download ZIP
             </p>
           </div>
-          <div className="text-xs text-indigo-100">
-            Chạy 100% client-side · Keys lưu trong localStorage
+          <div className="relative">
+            <AuthPanel auth={auth} />
           </div>
         </div>
       </header>
